@@ -1,0 +1,2 @@
+defmodule OtherModule do
+end
