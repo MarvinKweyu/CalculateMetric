@@ -6,7 +6,7 @@ defmodule CalculateMetric do
 
   @id1 10
   @id2 7
-  defstruct [:name, formula: "[id: 4] + [id: 3]", result: 0]
+  defstruct [:name, formula: "[id: 4] + [id: 3] / [id: 4] - [id: 3]", result: 0]
 
   @database_values [%{id: 4, value: 10}, %{id: 3, value: 7}]
 
@@ -23,7 +23,7 @@ defmodule CalculateMetric do
   def get_variables_required_for_formula(%CalculateMetric{} = metric) do
     formula = metric.formula
     # pass through regular expressions to remove signs [+, (,), / * %]
-    signs_to_watch_out = ["=", "(", "+", ")", "-", "*"]
+    signs_to_watch_out = ["=", "(", "+", ")", "-", "*", "/", "%"]
 
     my_list = String.split(formula, signs_to_watch_out)
 
