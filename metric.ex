@@ -13,7 +13,10 @@ defmodule CalculateMetric do
   @formula1 "week + days"
 
   def new() do
-    %__MODULE__{name: "none"}
+    %__MODULE__{name: "new metric"}
+  end
+
+  def new_metric(%{"name" => name, "formula" => formula, "result" => result} = _new_metric) do
   end
 
   @doc """
@@ -63,5 +66,40 @@ defmodule CalculateMetric do
           do: String.to_integer(String.trim(item))
 
     Enum.find(@database_values, fn map -> map.id == List.first(updated_list) end).value
+  end
+
+  def valid_formula(formula) do
+    # Todo
+    # validate there's no number/string lying radomly
+
+    # validate what is in [] has id:  followed by character that can be number
+    # get all items within brackets
+
+    valid_ids? =
+      ~r/\[(.*?)\]/
+      |> Regex.scan(formula)
+      |> Enum.map(fn x ->
+        last_item = List.last(x)
+
+        if String.starts_with?(last_item, "id:") do
+          contains_id? =
+            String.split(last_item, ":")
+            |> List.last()
+            |> String.trim()
+            |> Integer.parse()
+
+          contains_id? != :error
+        else
+          false
+        end
+      end)
+      |> Enum.member?(false) == false
+
+    # validate math operations * / % + - are always followed by space
+    spaced_operations? = Regex.match?(~r/(?<!\S)[-, +, *, %, \/](?!\S)/, formula)
+
+    valid_ids? and spaced_operations?
+    # validate [] are not immediately followed by
+    # get all values wrapped in []
   end
 end
