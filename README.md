@@ -1,5 +1,5 @@
 # CalculateMetric
-> Module to perform math operations on calculations stored as strings within a struct 
+> An Abacus implementation module to perform math operations on calculations stored as strings within a struct 
 
 ### Run
 
